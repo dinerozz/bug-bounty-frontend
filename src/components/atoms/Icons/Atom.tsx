@@ -7,6 +7,7 @@ const SvgAtom = (props: SVGProps<SVGSVGElement>) => (
     width="1em"
     height="1em"
     style={{
+      // @ts-ignore
       enableBackground: "new 0 0 24 24",
     }}
     viewBox="0 0 24 24"

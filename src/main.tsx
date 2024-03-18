@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import ReactDOM from "react-dom/client";
 
-import "./index.css";
+import "../main.css";
 import { AppRoutes } from "./routes/AppRoutes";
 import { RecoilRoot } from "recoil";
 
@@ -24,5 +24,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <AppRoutes />
       </RecoilRoot>
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
