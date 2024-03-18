@@ -4,7 +4,7 @@ module.exports = {
   mode: "jit",
   theme: {
     fontFamily: {
-      'general': ['Inter', 'sans-serif'],
+      'general': ['Cousine', 'monospace'],
     },
     extend: {
 
