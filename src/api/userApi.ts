@@ -3,14 +3,13 @@ import { api } from "@/api/index";
 type TCurrentUserResponse = {
   id: string;
   username: string;
+  email: string;
 };
 
 type TUsersSearchResponse = TCurrentUserResponse;
 
 const getCurrentUser = () =>
-  api
-    .get<TCurrentUserResponse>("/api/v1/users/current")
-    .then((res) => res.data);
+  api.get<TCurrentUserResponse>("/current").then((res) => res.data);
 
 const findByUsername = (username: string) =>
   api

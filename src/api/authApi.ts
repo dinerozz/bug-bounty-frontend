@@ -5,20 +5,24 @@ export type TAuthRequest = {
   password: string;
 };
 
-type TAuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+export type TSignUpRequest = {
+  email: string;
+  username: string;
+  password: string;
 };
 
-const signUp = (payload: TAuthRequest) =>
-  api
-    .post<TAuthResponse>("/api/v1/auth/register", payload)
-    .then((res) => res.data);
+type TAuthResponse = {
+  token: string;
+};
+
+const signUp = (payload: TSignUpRequest) =>
+  api.post<TAuthResponse>("/register", payload).then((res) => res.data);
 
 const login = (payload: TAuthRequest) =>
-  api
-    .post<TAuthResponse>("/api/v1/auth/login", payload)
-    .then((res) => res.data);
+  api.post<TAuthResponse>("/authenticate", payload).then((res) => {
+    localStorage.setItem("token", res.data.token);
+    return res.data;
+  });
 
 const logout = (userId: string) =>
   api.post("/api/v1/auth/logout", { userId }).then((res) => res.data);
