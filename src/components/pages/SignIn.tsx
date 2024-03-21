@@ -3,16 +3,20 @@ import MainLayout from "@/components/templates/MainLayout";
 import { Button, Form, Input, notification, Typography } from "antd";
 import FormItem from "antd/lib/form/FormItem";
 import { useMutation } from "react-query";
-import { authApi, TAuthRequest, TSignUpRequest } from "@/api/authApi";
+import { authApi, TAuthRequest } from "@/api/authApi";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userInfoStateSelector } from "@/store/authState";
 
 export const SignIn = () => {
   const navigate = useNavigate();
+  const [, setUserInfo] = useRecoilState(userInfoStateSelector);
 
   const signInMutation = useMutation(
     async (payload: TAuthRequest) => authApi.login(payload),
     {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        setUserInfo(res);
         localStorage.setItem("IS_LOGGED_IN", "true");
         notification.success({ message: "Успешная авторизация" });
         navigate("/profile");

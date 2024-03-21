@@ -1,19 +1,53 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Svglogo } from "@/components/atoms/Icons";
-import { Button, Typography } from "antd";
-import { useQuery } from "react-query";
-import { userApi } from "@/api/userApi";
+import {
+  Button,
+  Dropdown,
+  MenuProps,
+  notification,
+  Space,
+  Typography,
+} from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import { useRecoilState } from "recoil";
+import { userInfoStateSelector } from "@/store/authState";
+import { useMutation } from "react-query";
+import { authApi } from "@/api/authApi";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const [, setUserInfo] = useRecoilState(userInfoStateSelector);
+
   const isLoggedIn = JSON.parse(
     JSON.stringify(localStorage.getItem("IS_LOGGED_IN")),
   );
 
-  const { data: user, isLoading } = useQuery("current-user", () =>
-    userApi.getCurrentUser(),
-  );
+  const [userInfo] = useRecoilState(userInfoStateSelector);
+
+  const logoutMutation = useMutation(async () => authApi.logout(), {
+    onSuccess: () => {
+      localStorage.removeItem("IS_LOGGED_IN");
+      setUserInfo(null);
+      navigate("/");
+    },
+    onError: () => notification.error({ message: "Something went wrong" }),
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <Button size="small" onClick={() => handleLogout()}>
+          logout
+        </Button>
+      ),
+      key: "0",
+    },
+  ];
 
   return (
     <header className="border-b-[1px] border-b-neutral-700">
@@ -41,10 +75,10 @@ export const Header = () => {
             Team
           </Link>
           <Link to={"/tasks"} className="hover:text-white duration-300">
-            CTF_Tasks
+            Tasks
           </Link>
           <Link to={"/objects"} className="hover:text-white duration-300">
-            Polygon_Objects
+            Polygon
           </Link>
           <Link to={"/"} className="hover:text-white duration-300">
             Rules
@@ -52,12 +86,22 @@ export const Header = () => {
         </nav>
         <div className="p-4 flex gap-2">
           {isLoggedIn ? (
-            <Typography.Text
-              className="text-white cursor-pointer"
-              onClick={() => navigate("/profile")}
+            <Dropdown
+              trigger={["click"]}
+              menu={{ items }}
+              overlayStyle={{ background: "#16171b !important" }}
             >
-              {user?.username}
-            </Typography.Text>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space className="text-[#a2a2a4] cursor-pointer">
+                  <Typography.Text
+                    className="text-[#a2a2a4] cursor-pointer"
+                    onClick={() => navigate("/profile")}
+                  >
+                    {userInfo?.username ?? "user"}
+                  </Typography.Text>
+                </Space>
+              </a>
+            </Dropdown>
           ) : (
             <>
               <Button
