@@ -9,7 +9,6 @@ import {
   Space,
   Typography,
 } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 import { useRecoilState } from "recoil";
 import { userInfoStateSelector } from "@/store/authState";
 import { useMutation } from "react-query";
@@ -41,11 +40,26 @@ export const Header = () => {
   const items: MenuProps["items"] = [
     {
       label: (
-        <Button size="small" onClick={() => handleLogout()}>
+        <Typography.Text
+          className="text-[#a2a2a4] cursor-pointer hover:text-[#4096ff]"
+          onClick={() => navigate("/profile")}
+        >
+          profile
+        </Typography.Text>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <Button
+          size="small"
+          className="text-[#a2a2a4] border-0"
+          onClick={() => handleLogout()}
+        >
           logout
         </Button>
       ),
-      key: "0",
+      key: "1",
     },
   ];
 
@@ -89,14 +103,11 @@ export const Header = () => {
             <Dropdown
               trigger={["click"]}
               menu={{ items }}
-              overlayStyle={{ background: "#16171b !important" }}
+              overlayClassName="!bg-[#16171b]"
             >
               <a onClick={(e) => e.preventDefault()}>
                 <Space className="text-[#a2a2a4] cursor-pointer">
-                  <Typography.Text
-                    className="text-[#a2a2a4] cursor-pointer"
-                    onClick={() => navigate("/profile")}
-                  >
+                  <Typography.Text className="text-[#a2a2a4] cursor-pointer">
                     {userInfo?.username ?? "user"}
                   </Typography.Text>
                 </Space>

@@ -9,25 +9,39 @@ const axiosInstance = axios.create({
 });
 
 // catch 401 -> refresh
+let refreshAttempts = 0;
+const maxRefreshAttempts = 3;
+
 axiosInstance.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    // Сброс счетчика при успешном ответе
+    refreshAttempts = 0;
+    return res;
+  },
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      localStorage.removeItem("IS_LOGGED_IN");
-      window.location.href = "/";
+    if (error.response.status === 401) {
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
 
-      try {
-        await axiosInstance.get("/refresh");
-        localStorage.setItem("IS_LOGGED_IN", "true");
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        return Promise.reject(refreshError);
+        refreshAttempts++;
+
+        if (refreshAttempts <= maxRefreshAttempts) {
+          try {
+            await axiosInstance.get("/refresh");
+            localStorage.setItem("IS_LOGGED_IN", "true");
+            return axiosInstance(originalRequest);
+          } catch (refreshError) {
+            return Promise.reject(refreshError);
+          }
+        } else {
+          localStorage.removeItem("IS_LOGGED_IN");
+          window.location.href = "/signin";
+          return Promise.reject(error);
+        }
       }
     }
-
     return Promise.reject(error);
   },
 );
