@@ -17,6 +17,7 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       localStorage.removeItem("IS_LOGGED_IN");
+      window.location.href = "/";
 
       try {
         await axiosInstance.get("/refresh");
