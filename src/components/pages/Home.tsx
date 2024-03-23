@@ -28,14 +28,6 @@ const Home = () => {
           </Button>
         </div>
       </div>
-      <div className="mix-blend-hard-light absolute -z-10 top-0 left-0 bottom-0 right-0">
-        <img
-          className="w-full h-[150%] object-cover absolute top-0 left-0 bottom-0 right-0"
-          src={OrangeGradient}
-          alt="gradient"
-          loading="lazy"
-        />
-      </div>
     </MainLayout>
   );
 };

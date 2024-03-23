@@ -53,6 +53,8 @@ module.exports = {
         dimBlue: "rgba(9, 151, 124, 0.1)",
         'majorelle-blue': "#545AE8",
         'alice-blue': '#EDF1F5',
+        'primary-text': '#a2a2a4',
+        'transparent-white': 'rgba(255,255,255,0.8)'
       },
     },
     screens: {

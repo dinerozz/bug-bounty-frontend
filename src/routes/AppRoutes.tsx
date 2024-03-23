@@ -8,41 +8,18 @@ export const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {publicRoutes.map((route, index) => {
-          const isAuthRoute = ["/signin", "/signup"].includes(route.path);
+        {publicRoutes.map(({ path, element }, index) => (
+          <Route key={index} path={path} element={element} />
+        ))}
 
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                isAuthRoute ? (
-                  <AuthRedirect>{route.element}</AuthRedirect>
-                ) : (
-                  route.element
-                )
-              }
-            />
-          );
-        })}
-        <Route path="*" element={<Navigate to={"/"} replace />} />
-        {privateRoutes.map((route, index) => {
-          const isAuthRoute = ["/profile"].includes(route.path);
-
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                isAuthRoute ? (
-                  <ProtectedRoute>{route.element}</ProtectedRoute>
-                ) : (
-                  route.element
-                )
-              }
-            />
-          );
-        })}
+        {privateRoutes.map(({ path, element }, index) => (
+          <Route
+            key={index}
+            path={path}
+            element={<ProtectedRoute>{element}</ProtectedRoute>}
+          />
+        ))}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

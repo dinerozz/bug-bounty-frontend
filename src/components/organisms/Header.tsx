@@ -14,6 +14,15 @@ import { userInfoStateSelector } from "@/store/authState";
 import { useMutation } from "react-query";
 import { authApi } from "@/api/authApi";
 
+const NAV_LINKS = [
+  { label: "Home", route: "/" },
+  { label: "Scoreboard", route: "/scoreboard" },
+  { label: "Team", route: "/team" },
+  { label: "Tasks", route: "/tasks" },
+  { label: "Polygon", route: "/polygon" },
+  { label: "Rules", route: "/rules" },
+];
+
 export const Header = () => {
   const navigate = useNavigate();
   const [, setUserInfo] = useRecoilState(userInfoStateSelector);
@@ -69,34 +78,26 @@ export const Header = () => {
         <div className="flex flex-col items-center duration-300 cursor-pointer">
           <Link
             to="/"
-            className="flex items-center justify-center text-xl font-light text-[#a2a2a4] hover:text-white duration-300"
+            className="flex items-center justify-center text-xl font-light text-transparent-white hover:text-white duration-300"
           >
             <Svglogo fill={"currentColor"} fontSize={40} />
             POLYGON
           </Link>
-          <Link to="/" className="text-xs text-[#a2a2a4]">
+          <Link to="/" className="text-xs text-transparent-white">
             by 1729
           </Link>
         </div>
-        <nav className="flex gap-4 text-[#a2a2a4] text-[16px] font-light">
-          <Link to={"/"} className="hover:text-white duration-300">
-            Home
-          </Link>
-          <Link to={"/scoreboard"} className="hover:text-white duration-300">
-            Scoreboard
-          </Link>
-          <Link to={"/"} className="hover:text-white duration-300">
-            Team
-          </Link>
-          <Link to={"/tasks"} className="hover:text-white duration-300">
-            Tasks
-          </Link>
-          <Link to={"/objects"} className="hover:text-white duration-300">
-            Polygon
-          </Link>
-          <Link to={"/"} className="hover:text-white duration-300">
-            Rules
-          </Link>
+
+        <nav className="flex gap-4 text-transparent-white text-[16px] font-light">
+          {NAV_LINKS.map((nav, index) => (
+            <Link
+              key={index}
+              to={nav.route}
+              className="hover:text-white duration-300"
+            >
+              {nav.label}
+            </Link>
+          ))}
         </nav>
         <div className="p-4 flex gap-2">
           {isLoggedIn ? (
@@ -106,8 +107,8 @@ export const Header = () => {
               overlayClassName="!bg-[#16171b]"
             >
               <a onClick={(e) => e.preventDefault()}>
-                <Space className="text-[#a2a2a4] cursor-pointer">
-                  <Typography.Text className="text-[#a2a2a4] cursor-pointer">
+                <Space className="text-transparent-white cursor-pointer">
+                  <Typography.Text className="text-transparent-white cursor-pointer">
                     {userInfo?.username ?? "user"}
                   </Typography.Text>
                 </Space>

@@ -26,7 +26,7 @@ export const Profile = () => {
       {isLoading ? (
         <Spin size="large" />
       ) : (
-        <div className="flex items-center justify-center flex-col bg-[#452225] w-[400px] p-4 rounded mt-32">
+        <div className="mx-auto flex items-center justify-center flex-col bg-[#452225] w-[400px] p-4 rounded mt-32">
           <Avatar
             className="flex items-center justify-center w-[50px] h-[50px]"
             icon={<UserOutlined rev={""} />}

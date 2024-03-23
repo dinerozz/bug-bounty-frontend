@@ -5,11 +5,16 @@ import { Profile } from "@/components/pages/Profile";
 import { Scoreboard } from "@/components/pages/Scoreboard";
 import { Tasks } from "@/components/pages/Tasks";
 import { Objects } from "@/components/pages/Objects";
+import { Team } from "@/components/pages/Team";
 
 export const privateRoutes = [
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/team",
+    element: <Team />,
   },
 ];
 
