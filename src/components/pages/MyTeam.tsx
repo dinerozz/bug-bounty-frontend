@@ -59,7 +59,7 @@ export const MyTeam: FC = () => {
   );
 
   const handleCopyClick = () => {
-    const inviteToken = teamInfo?.invite_token ?? user?.team.invite_token;
+    const inviteToken = teamInfo?.invite_token ?? user?.team?.invite_token;
     if (inviteToken) {
       navigator.clipboard
         .writeText(inviteToken)
@@ -71,6 +71,8 @@ export const MyTeam: FC = () => {
         .catch((err) => {
           customNotification.error({ message: err });
         });
+    } else {
+      customNotification.error({ message: "Не удалось скопировать токен" });
     }
   };
 
@@ -100,7 +102,7 @@ export const MyTeam: FC = () => {
               <div className="flex gap-4 items-center justify-between">
                 <Input
                   type="text"
-                  value={teamInfo?.invite_token ?? user?.team.invite_token}
+                  value={teamInfo?.invite_token ?? user?.team?.invite_token}
                   className="!border-granite-gray !text-primary-text bg-transparent"
                   disabled
                 />
