@@ -8,9 +8,10 @@ import {
   userInfoStateSelector,
 } from "@/store/authState";
 import customNotification from "@/utils/customNotification";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { teamApi } from "@/api/teamApi";
 import { AxiosError } from "axios";
+import { userApi } from "@/api/userApi";
 
 export const MyTeam: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +29,10 @@ export const MyTeam: FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const { data: user, isLoading } = useQuery("current-user", () =>
+    userApi.getCurrentUser(),
+  );
 
   const resetInviteTokenMutation = useMutation(
     async () => teamApi.resetInviteToken(),
@@ -54,7 +59,7 @@ export const MyTeam: FC = () => {
   );
 
   const handleCopyClick = () => {
-    const inviteToken = teamInfo?.invite_token ?? userInfo?.team.invite_token;
+    const inviteToken = teamInfo?.invite_token ?? user?.team.invite_token;
     if (inviteToken) {
       navigator.clipboard
         .writeText(inviteToken)
@@ -95,7 +100,7 @@ export const MyTeam: FC = () => {
               <div className="flex gap-4 items-center justify-between">
                 <Input
                   type="text"
-                  value={teamInfo?.invite_token ?? userInfo?.team.invite_token}
+                  value={teamInfo?.invite_token ?? user?.team.invite_token}
                   className="!border-granite-gray !text-primary-text bg-transparent"
                   disabled
                 />

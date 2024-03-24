@@ -1,9 +1,11 @@
 import { api } from "@/api/index";
+import { TTeam } from "@/store/authState";
 
 type TCurrentUserResponse = {
   id: string;
   username: string;
   email: string;
+  team: TTeam;
 };
 
 type TUsersSearchResponse = TCurrentUserResponse;

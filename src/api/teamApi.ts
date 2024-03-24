@@ -4,6 +4,9 @@ import { TTeam } from "@/store/authState";
 const createTeam = (payload: { name: string; ownerId: string }) =>
   api.post<TTeam>("/team", payload).then((res) => res.data);
 
+const joinTeam = (payload: { invite_token: string }) =>
+  api.post("team/join", payload).then((res) => res.data);
+
 const resetInviteToken = () =>
   api
     .patch<{ invite_token: string }>("/team/invite-token")
@@ -12,4 +15,5 @@ const resetInviteToken = () =>
 export const teamApi = {
   createTeam,
   resetInviteToken,
+  joinTeam,
 };
