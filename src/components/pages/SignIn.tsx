@@ -7,6 +7,7 @@ import { authApi, TAuthRequest } from "@/api/authApi";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userInfoStateSelector } from "@/store/authState";
+import { Card } from "@/components/molecules/Card";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -31,35 +32,39 @@ export const SignIn = () => {
 
   return (
     <MainLayout>
-      <Form
-        onFinish={onFinish}
-        layout="vertical"
-        className="mx-auto bg-[#452225] w-[400px] p-4 rounded mt-32"
-      >
-        <FormItem
-          name="username"
-          label={
-            <Typography.Text className="text-white">username</Typography.Text>
-          }
-        >
-          <Input type="text" />
-        </FormItem>
-        <FormItem
-          name="password"
-          label={
-            <Typography.Text className="text-white">password</Typography.Text>
-          }
-        >
-          <Input type="password" />
-        </FormItem>
+      <div className="mx-auto max-w-[500px]">
+        <Card title="Login" subtitle="">
+          <Form onFinish={onFinish} layout="vertical">
+            <FormItem
+              name="username"
+              label={
+                <Typography.Text className="text-white">
+                  username
+                </Typography.Text>
+              }
+            >
+              <Input type="text" />
+            </FormItem>
+            <FormItem
+              name="password"
+              label={
+                <Typography.Text className="text-white">
+                  password
+                </Typography.Text>
+              }
+            >
+              <Input type="password" />
+            </FormItem>
 
-        <Button
-          className="text-white hover:!text-grayWhite py-0"
-          htmlType="submit"
-        >
-          Sign In
-        </Button>
-      </Form>
+            <Button
+              className="text-white hover:!text-grayWhite py-0"
+              htmlType="submit"
+            >
+              Sign In
+            </Button>
+          </Form>
+        </Card>
+      </div>
     </MainLayout>
   );
 };
