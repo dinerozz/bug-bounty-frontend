@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import MainLayout from "@/components/templates/MainLayout";
 import { Button, Form, Input, notification, Typography } from "antd";
 import { useMutation } from "react-query";
@@ -6,6 +6,27 @@ import { authApi, TAuthRequest } from "@/api/authApi";
 import { teamApi } from "@/api/teamApi";
 import { useRecoilState } from "recoil";
 import { userInfoStateSelector } from "@/store/authState";
+
+const Card: FC<{ title: string; subtitle: string; children: JSX.Element }> = ({
+  title,
+  subtitle,
+  children,
+}) => {
+  return (
+    <div className="mt-10 border-solid border-[1px] border-granite-gray w-full bg-[rgba(60,34,37,0.3)] backdrop-blur-md p-5 rounded-lg shadow-sm shadow-orange-700 relative">
+      <div className="bg-cyber inset-0 absolute bg-cover opacity-10 z-0" />
+      <div className="z-20">
+        <Typography.Text className="!text-transparent-white text-xl">
+          {title}
+        </Typography.Text>
+        <Typography.Text className="!text-transparent-white block">
+          {subtitle}
+        </Typography.Text>
+        {children}
+      </div>
+    </div>
+  );
+};
 
 export const Team = () => {
   const [userInfo] = useRecoilState(userInfoStateSelector);
@@ -16,7 +37,7 @@ export const Team = () => {
     {
       onSuccess: (res) => notification.success({ message: "Success" }),
       onError: () => notification.error({ message: "Something went wrong" }),
-    },
+    }
   );
 
   const handleCreateTeam = (value: { teamName: string }) => {
@@ -29,13 +50,10 @@ export const Team = () => {
 
   return (
     <MainLayout>
-      <div className="mt-10 border-solid border-[1px] border-granite-gray w-full bg-[rgba(60,34,37,0.3)] backdrop-blur-md p-5 rounded-lg">
-        <Typography.Text className="!text-transparent-white text-xl">
-          Join team
-        </Typography.Text>
-        <Typography.Text className="!text-transparent-white block">
-          Team leader should send you an invite-token
-        </Typography.Text>
+      <Card
+        title="Join team"
+        subtitle="Team leader should send you an invite-token"
+      >
         <div className="mt-4 flex flex-col">
           <label className="text-transparent-white">Invite token</label>
           <Input
@@ -49,14 +67,12 @@ export const Team = () => {
             Join
           </Button>
         </div>
-      </div>
-      <div className="mt-5 border-solid border-[1px] border-granite-gray w-full bg-[rgba(60,34,37,0.3)] backdrop-blur-md p-5 rounded-lg">
-        <Typography.Text className="!text-transparent-white text-xl">
-          Create team
-        </Typography.Text>
-        <Typography.Text className="!text-transparent-white block">
-          Only creator/leader of the team can manage team profile.
-        </Typography.Text>
+      </Card>
+
+      <Card
+        title="Create team"
+        subtitle="Only creator/leader of the team can manage team profile."
+      >
         <Form layout="vertical" className="mt-4" onFinish={handleCreateTeam}>
           <label className="text-transparent-white">Team name</label>
           <Form.Item name="teamName" className="mb-0">
@@ -74,7 +90,7 @@ export const Team = () => {
             Create team
           </Button>
         </Form>
-      </div>
+      </Card>
     </MainLayout>
   );
 };
