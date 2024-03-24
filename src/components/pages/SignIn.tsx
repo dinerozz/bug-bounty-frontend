@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userInfoStateSelector } from "@/store/authState";
 import { Card } from "@/components/molecules/Card";
+import customNotification from "@/utils/customNotification";
+import { AxiosError } from "axios";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -19,10 +21,11 @@ export const SignIn = () => {
       onSuccess: (res) => {
         setUserInfo(res);
         localStorage.setItem("IS_LOGGED_IN", "true");
-        notification.success({ message: "Успешная авторизация" });
+        customNotification.success({ message: "Успешная авторизация" });
         navigate("/profile");
       },
-      onError: () => notification.error({ message: "Something went wrong" }),
+      onError: (err: AxiosError<{ error: string }>) =>
+        customNotification.error({ message: err.response?.data.error }),
     },
   );
 
