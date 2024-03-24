@@ -15,6 +15,12 @@ type TAuthResponse = {
   id: string;
   email: string;
   username: string;
+  team: {
+    owner_id: string;
+    id: string;
+    name: string;
+    invite_token: string;
+  };
 };
 
 const signUp = (payload: TSignUpRequest) =>

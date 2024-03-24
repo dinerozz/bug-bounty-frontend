@@ -4,6 +4,12 @@ type TUserInfo = {
   id: string;
   username: string;
   email: string;
+  team: {
+    owner_id: string;
+    id: string;
+    invite_token: string;
+    name: string;
+  };
 };
 
 export const isLoggedInState = atom({
@@ -11,7 +17,7 @@ export const isLoggedInState = atom({
   default: false,
 });
 
-export const userInfoState = atom<TUserInfo | undefined>({
+export const userInfoState = atom<TUserInfo | null>({
   key: "userInfoState",
   default: undefined,
 });

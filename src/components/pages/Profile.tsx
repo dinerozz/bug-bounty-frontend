@@ -35,7 +35,11 @@ export const Profile = () => {
                   </Typography.Text>
                 }
               >
-                <Input type="text" value={user?.email} />
+                <Input
+                  type="text"
+                  className="outline-0  bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
+                  value={user?.email}
+                />
               </FormItem>
               <FormItem
                 label={
@@ -44,7 +48,11 @@ export const Profile = () => {
                   </Typography.Text>
                 }
               >
-                <Input type="text" value={user?.username} />
+                <Input
+                  type="text"
+                  value={user?.username}
+                  className="outline-0  bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
+                />
               </FormItem>
               <Button
                 className="bg-[#ff4d4d] border-0 hover:!text-black hover:opacity-[0.8] duration-300 text-black"

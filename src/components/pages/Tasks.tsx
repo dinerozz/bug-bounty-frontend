@@ -1,6 +1,7 @@
 import React from "react";
 import MainLayout from "@/components/templates/MainLayout";
-import { Avatar, Button, Card, Tag, Typography } from "antd";
+import { Avatar, Button, Tag, Typography } from "antd";
+import { Card } from "@/components/molecules/Card";
 
 const tasks = [
   {
@@ -113,24 +114,15 @@ export const Tasks = () => {
       <Typography.Title className="text-center mt-10 !text-white">
         TASKS
       </Typography.Title>
-      <div className="mt-4 flex items-center justify-center gap-4 flex-wrap">
+      <div className="flex flex-wrap w-full">
         {tasks.map((task) => (
-          <Card className="cursor-pointer bg-[#452225] border-0 w-[220px] h-[220px]">
-            <div>
-              <Avatar size="large" src={task.image} />
-            </div>
-            <div className="flex flex-col mt-2 h-[100px]">
-              <Typography.Text className="text-white">
-                {task.name}
+          <div className="mx-auto w-[300px] h-fit">
+            <Card title={task.name} subtitle={task.tag}>
+              <Typography.Text className="text-transparent-white">
+                {task.points}
               </Typography.Text>
-              <Tag color="red-inverse" className="w-fit">
-                {task.tag}
-              </Tag>
-            </div>
-            <Button className="border-0 text-white border-[1px] border-dark-gray">
-              Show description
-            </Button>
-          </Card>
+            </Card>
+          </div>
         ))}
       </div>
     </MainLayout>

@@ -228,6 +228,16 @@ body {
 .ant-notification-notice-close-x {
   color: white !important;
 }
+.ant-modal-content {
+  background-color: #16171b !important;
+}
+.ant-modal-title {
+  background-color: #16171b !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.ant-modal-close-x {
+  color: white !important;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }
