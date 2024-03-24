@@ -3,7 +3,10 @@ import { Button, Form, Input } from "antd";
 import { useMutation } from "react-query";
 import { teamApi } from "@/api/teamApi";
 import { useRecoilState } from "recoil";
-import { userInfoStateSelector } from "@/store/authState";
+import {
+  teamInfoStateSelector,
+  userInfoStateSelector,
+} from "@/store/authState";
 import { AxiosError } from "axios";
 import customNotification from "@/utils/customNotification";
 import { Card } from "@/components/molecules/Card";
@@ -11,13 +14,15 @@ import { useNavigate } from "react-router-dom";
 
 export const Team = () => {
   const [userInfo] = useRecoilState(userInfoStateSelector);
+  const [, setTeamInfo] = useRecoilState(teamInfoStateSelector);
   const navigate = useNavigate();
 
   const createTeamMutation = useMutation(
     async (payload: { name: string; ownerId: string }) =>
       teamApi.createTeam(payload),
     {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        setTeamInfo(res);
         customNotification.success({
           message: "Команда создана",
         });

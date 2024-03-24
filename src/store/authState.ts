@@ -1,15 +1,17 @@
 import { atom, selector } from "recoil";
 
+export type TTeam = {
+  owner_id: string;
+  id: string;
+  invite_token: string;
+  name: string;
+};
+
 type TUserInfo = {
   id: string;
   username: string;
   email: string;
-  team: {
-    owner_id: string;
-    id: string;
-    invite_token: string;
-    name: string;
-  };
+  team: TTeam;
 };
 
 export const isLoggedInState = atom({
@@ -19,6 +21,11 @@ export const isLoggedInState = atom({
 
 export const userInfoState = atom<TUserInfo | null>({
   key: "userInfoState",
+  default: undefined,
+});
+
+export const teamInfo = atom<TTeam | null>({
+  key: "teamInfoState",
   default: undefined,
 });
 
@@ -33,4 +40,10 @@ export const userInfoStateSelector = selector<TUserInfo | null>({
     localStorage.setItem("userInfo", JSON.stringify(newValue));
     set(userInfoState, newValue);
   },
+});
+
+export const teamInfoStateSelector = selector<TTeam | null>({
+  key: "teamInfoStateSelector",
+  get: ({ get }) => get(teamInfo),
+  set: ({ set }, newValue) => set(teamInfo, newValue),
 });
