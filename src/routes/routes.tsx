@@ -6,6 +6,7 @@ import { Scoreboard } from "@/components/pages/Scoreboard";
 import { Tasks } from "@/components/pages/Tasks";
 import { Objects } from "@/components/pages/Objects";
 import { Team } from "@/components/pages/Team";
+import { MyTeam } from "@/components/pages/MyTeam";
 
 export const privateRoutes = [
   {
@@ -15,6 +16,10 @@ export const privateRoutes = [
   {
     path: "/team",
     element: <Team />,
+  },
+  {
+    path: "/my-team",
+    element: <MyTeam />,
   },
 ];
 

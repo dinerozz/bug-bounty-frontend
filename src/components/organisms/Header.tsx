@@ -61,12 +61,12 @@ export const Header = () => {
       label: (
         <Typography.Text
           className="text-[#a2a2a4] cursor-pointer hover:text-[#4096ff]"
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate("/my-team")}
         >
           my team
         </Typography.Text>
       ),
-      key: "0",
+      key: "1",
     },
     {
       label: (
@@ -78,7 +78,7 @@ export const Header = () => {
           logout
         </Button>
       ),
-      key: "1",
+      key: "2",
     },
   ];
 

@@ -7,18 +7,22 @@ import { userInfoStateSelector } from "@/store/authState";
 import { AxiosError } from "axios";
 import customNotification from "@/utils/customNotification";
 import { Card } from "@/components/molecules/Card";
+import { useNavigate } from "react-router-dom";
 
 export const Team = () => {
   const [userInfo] = useRecoilState(userInfoStateSelector);
+  const navigate = useNavigate();
 
   const createTeamMutation = useMutation(
     async (payload: { name: string; ownerId: string }) =>
       teamApi.createTeam(payload),
     {
-      onSuccess: () =>
+      onSuccess: () => {
         customNotification.success({
           message: "Команда создана",
-        }),
+        });
+        navigate("/my-team");
+      },
       onError: (err: AxiosError<{ error: string }>) =>
         customNotification.error({
           message: err.response?.data?.error,
