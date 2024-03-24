@@ -1,32 +1,12 @@
-import { FC } from "react";
 import MainLayout from "@/components/templates/MainLayout";
-import { Button, Form, Input, notification, Typography } from "antd";
+import { Button, Form, Input } from "antd";
 import { useMutation } from "react-query";
-import { authApi, TAuthRequest } from "@/api/authApi";
 import { teamApi } from "@/api/teamApi";
 import { useRecoilState } from "recoil";
 import { userInfoStateSelector } from "@/store/authState";
-
-const Card: FC<{ title: string; subtitle: string; children: JSX.Element }> = ({
-  title,
-  subtitle,
-  children,
-}) => {
-  return (
-    <div className="mt-10 border-solid border-[1px] border-granite-gray w-full bg-[rgba(60,34,37,0.3)] backdrop-blur-md p-5 rounded-lg shadow-sm shadow-orange-700 relative">
-      <div className="bg-cyber inset-0 absolute bg-cover opacity-10 z-0" />
-      <div className="z-20">
-        <Typography.Text className="!text-transparent-white text-xl">
-          {title}
-        </Typography.Text>
-        <Typography.Text className="!text-transparent-white block">
-          {subtitle}
-        </Typography.Text>
-        {children}
-      </div>
-    </div>
-  );
-};
+import { AxiosError } from "axios";
+import customNotification from "@/utils/customNotification";
+import { Card } from "@/components/molecules/Card";
 
 export const Team = () => {
   const [userInfo] = useRecoilState(userInfoStateSelector);
@@ -35,15 +15,21 @@ export const Team = () => {
     async (payload: { name: string; ownerId: string }) =>
       teamApi.createTeam(payload),
     {
-      onSuccess: (res) => notification.success({ message: "Success" }),
-      onError: () => notification.error({ message: "Something went wrong" }),
-    }
+      onSuccess: () =>
+        customNotification.success({
+          message: "Команда создана",
+        }),
+      onError: (err: AxiosError<{ error: string }>) =>
+        customNotification.error({
+          message: err.response?.data?.error,
+        }),
+    },
   );
 
   const handleCreateTeam = (value: { teamName: string }) => {
     const payload = {
       name: value.teamName,
-      ownerId: userInfo?.id,
+      ownerId: userInfo?.id ?? "",
     };
     createTeamMutation.mutate(payload);
   };
@@ -61,7 +47,7 @@ export const Team = () => {
             className="outline-0 w-[30%] bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
           />
           <Button
-            className="w-fit text-transparent-white outline-0 border-primary-text mt-2"
+            className="w-fit text-green-500 outline-0 border-green-500 mt-2"
             size="small"
           >
             Join
@@ -83,7 +69,7 @@ export const Team = () => {
           </Form.Item>
 
           <Button
-            className="w-fit text-transparent-white outline-0 border-primary-text mt-2"
+            className="w-fit text-green-500 outline-0 border-green-500 mt-2"
             size="small"
             htmlType="submit"
           >

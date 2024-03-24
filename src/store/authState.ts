@@ -16,7 +16,7 @@ export const userInfoState = atom<TUserInfo | undefined>({
   default: undefined,
 });
 
-export const userInfoStateSelector = selector<TUserInfo>({
+export const userInfoStateSelector = selector<TUserInfo | null>({
   key: "userInfoStateSelector",
   get: ({ get }) => {
     const savedUserInfo = localStorage.getItem("userInfo");

@@ -57,6 +57,8 @@ module.exports = {
         "alice-blue": "#EDF1F5",
         "primary-text": "#a2a2a4",
         "transparent-white": "rgba(255,255,255,0.8)",
+        "primaryColor": "#ff4d4d",
+        "primary-bg": "#16171b"
       },
     },
     screens: {

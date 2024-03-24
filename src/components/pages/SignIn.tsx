@@ -34,7 +34,7 @@ export const SignIn = () => {
       <Form
         onFinish={onFinish}
         layout="vertical"
-        className="bg-[#452225] w-[400px] p-4 rounded mt-32"
+        className="mx-auto bg-[#452225] w-[400px] p-4 rounded mt-32"
       >
         <FormItem
           name="username"

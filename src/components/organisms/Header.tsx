@@ -27,7 +27,7 @@ export const Header = () => {
   const [, setUserInfo] = useRecoilState(userInfoStateSelector);
 
   const isLoggedIn = JSON.parse(
-    JSON.stringify(localStorage.getItem("IS_LOGGED_IN"))
+    JSON.stringify(localStorage.getItem("IS_LOGGED_IN")),
   );
 
   const [userInfo] = useRecoilState(userInfoStateSelector);
@@ -53,6 +53,17 @@ export const Header = () => {
           onClick={() => navigate("/profile")}
         >
           profile
+        </Typography.Text>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <Typography.Text
+          className="text-[#a2a2a4] cursor-pointer hover:text-[#4096ff]"
+          onClick={() => navigate("/profile")}
+        >
+          my team
         </Typography.Text>
       ),
       key: "0",

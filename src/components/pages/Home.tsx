@@ -21,7 +21,7 @@ const Home = () => {
             foster collaboration with fellow cyber warriors.
           </Typography.Text>
           <Button
-            className="bg-[#ff4d4d] h-[48px] mt-5 border-0 hover:!text-black hover:opacity-[0.8] duration-300 text-black"
+            className="bg-primary-bg h-[48px] mt-5 border-0 hover:!text-black hover:opacity-[0.8] duration-300 text-black"
             onClick={() => navigate("/signup")}
           >
             Get Started
