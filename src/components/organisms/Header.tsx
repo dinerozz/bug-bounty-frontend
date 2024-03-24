@@ -1,5 +1,4 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Svglogo } from "@/components/atoms/Icons";
 import {
   Button,
@@ -28,7 +27,7 @@ export const Header = () => {
   const [, setUserInfo] = useRecoilState(userInfoStateSelector);
 
   const isLoggedIn = JSON.parse(
-    JSON.stringify(localStorage.getItem("IS_LOGGED_IN")),
+    JSON.stringify(localStorage.getItem("IS_LOGGED_IN"))
   );
 
   const [userInfo] = useRecoilState(userInfoStateSelector);
@@ -88,15 +87,21 @@ export const Header = () => {
           </Link>
         </div>
 
-        <nav className="flex gap-4 text-transparent-white text-[16px] font-light">
+        <nav className="flex gap-4 items-center text-transparent-white text-[16px] font-light h-[30px]">
           {NAV_LINKS.map((nav, index) => (
-            <Link
+            <NavLink
               key={index}
               to={nav.route}
-              className="hover:text-white duration-300"
+              className={({ isActive }) => {
+                console.log(nav.route, isActive);
+
+                return `hover:text-white hover:pb-1 hover:border-b border-[#ff4d4d] transition-all ${
+                  isActive ? "border-b border-[#ff4d4d]" : ""
+                }`;
+              }}
             >
               {nav.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
         <div className="p-4 flex gap-2">
