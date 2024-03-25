@@ -7,6 +7,7 @@ import { Tasks } from "@/components/pages/Tasks";
 import { Objects } from "@/components/pages/Objects";
 import { Team } from "@/components/pages/Team";
 import { MyTeam } from "@/components/pages/MyTeam";
+import { Admin } from "@/components/pages/Admin";
 
 export const privateRoutes = [
   {
@@ -20,6 +21,10 @@ export const privateRoutes = [
   {
     path: "/my-team",
     element: <MyTeam />,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
   },
 ];
 

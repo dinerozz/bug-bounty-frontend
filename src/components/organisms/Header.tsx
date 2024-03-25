@@ -68,24 +68,35 @@ export const Header = () => {
       label: (
         <Typography.Text
           className="text-[#a2a2a4] cursor-pointer hover:text-[#4096ff]"
-          onClick={() => navigate("/my-team")}
+          onClick={() => navigate("/admin")}
         >
-          my team
+          admin
         </Typography.Text>
       ),
       key: "1",
     },
     {
       label: (
+        <Typography.Text
+          className="text-[#a2a2a4] cursor-pointer hover:text-[#4096ff]"
+          onClick={() => navigate("/my-team")}
+        >
+          my team
+        </Typography.Text>
+      ),
+      key: "2",
+    },
+    {
+      label: (
         <Button
           size="small"
-          className="text-[#a2a2a4] border-0"
+          className="text-[#a2a2a4] border-0 !p-0"
           onClick={() => handleLogout()}
         >
           logout
         </Button>
       ),
-      key: "2",
+      key: "3",
     },
   ];
 

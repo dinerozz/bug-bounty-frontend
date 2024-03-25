@@ -1,6 +1,7 @@
 import { Avatar, Table } from "antd";
 import React from "react";
 import MainLayout from "@/components/templates/MainLayout";
+import { Card } from "@/components/molecules/Card";
 
 export const Scoreboard = () => {
   const columns = [
@@ -56,13 +57,16 @@ export const Scoreboard = () => {
 
   return (
     <MainLayout>
-      <Table
-        rowClassName={"custom-table-dark-row"}
-        className="custom-table-dark mt-10"
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-      />
+      <Card title={`Scoreboard`} subtitle="">
+        <div className="mt-4 border-solid border-[1px] border-granite-gray w-full bg-[rgba(60,34,37,0.3)] backdrop-blur-md p-5 rounded-lg shadow-sm shadow-orange-700 relative">
+          <Table
+            className="w-full"
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+          />
+        </div>
+      </Card>
     </MainLayout>
   );
 };
