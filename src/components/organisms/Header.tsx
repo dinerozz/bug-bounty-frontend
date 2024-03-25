@@ -10,27 +10,25 @@ import {
 } from "antd";
 import { useRecoilState } from "recoil";
 import { userInfoStateSelector } from "@/store/authState";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { authApi } from "@/api/authApi";
-
-const NAV_LINKS = [
-  { label: "Home", route: "/" },
-  { label: "Scoreboard", route: "/scoreboard" },
-  { label: "Team", route: "/team" },
-  { label: "Tasks", route: "/tasks" },
-  { label: "Polygon", route: "/polygon" },
-  { label: "Rules", route: "/rules" },
-];
+import { userApi } from "@/api/userApi";
 
 export const Header = () => {
   const navigate = useNavigate();
   const [, setUserInfo] = useRecoilState(userInfoStateSelector);
 
-  const isLoggedIn = JSON.parse(
-    JSON.stringify(localStorage.getItem("IS_LOGGED_IN")),
+  const isLoggedIn = Boolean(
+    JSON.parse(JSON.stringify(localStorage.getItem("IS_LOGGED_IN"))),
   );
 
-  const [userInfo] = useRecoilState(userInfoStateSelector);
+  const { data: user, isLoading } = useQuery(
+    "current-user",
+    () => userApi.getCurrentUser(),
+    {
+      enabled: isLoggedIn,
+    },
+  );
 
   const logoutMutation = useMutation(async () => authApi.logout(), {
     onSuccess: () => {
@@ -44,6 +42,15 @@ export const Header = () => {
   const handleLogout = () => {
     logoutMutation.mutate();
   };
+
+  const NAV_LINKS = [
+    { label: "Home", route: "/" },
+    { label: "Scoreboard", route: "/scoreboard" },
+    { label: "Team", route: "/team", hidden: user?.team?.id },
+    { label: "Tasks", route: "/tasks" },
+    { label: "Polygon", route: "/polygon" },
+    { label: "Rules", route: "/rules" },
+  ];
 
   const items: MenuProps["items"] = [
     {
@@ -99,21 +106,22 @@ export const Header = () => {
         </div>
 
         <nav className="flex gap-4 items-center text-transparent-white text-[16px] font-light h-[30px]">
-          {NAV_LINKS.map((nav, index) => (
-            <NavLink
-              key={index}
-              to={nav.route}
-              className={({ isActive }) => {
-                console.log(nav.route, isActive);
-
-                return `hover:text-white hover:pb-1 hover:border-b border-[#ff4d4d] transition-all ${
-                  isActive ? "border-b border-[#ff4d4d]" : ""
-                }`;
-              }}
-            >
-              {nav.label}
-            </NavLink>
-          ))}
+          {NAV_LINKS.map((nav, index) => {
+            if (!nav.hidden)
+              return (
+                <NavLink
+                  key={index}
+                  to={nav.route}
+                  className={({ isActive }) => {
+                    return `hover:text-white hover:pb-1 hover:border-b border-[#ff4d4d] transition-all ${
+                      isActive ? "border-b border-[#ff4d4d]" : ""
+                    }`;
+                  }}
+                >
+                  {nav.label}
+                </NavLink>
+              );
+          })}
         </nav>
         <div className="p-4 flex gap-2">
           {isLoggedIn ? (
@@ -125,7 +133,7 @@ export const Header = () => {
               <a onClick={(e) => e.preventDefault()}>
                 <Space className="text-transparent-white cursor-pointer">
                   <Typography.Text className="text-transparent-white cursor-pointer">
-                    {userInfo?.username ?? "user"}
+                    {user?.username ?? "user"}
                   </Typography.Text>
                 </Space>
               </a>

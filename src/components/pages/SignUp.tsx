@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { authApi, TSignUpRequest } from "@/api/authApi";
 import { useMutation } from "react-query";
 import { Card } from "@/components/molecules/Card";
+import customNotification from "@/utils/customNotification";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -14,10 +15,11 @@ export const SignUp = () => {
     async (payload: TSignUpRequest) => authApi.signUp(payload),
     {
       onSuccess: () => {
-        notification.success({ message: "Успешная регистрация" });
+        customNotification.success({ message: "Успешная регистрация" });
         navigate("/signin");
       },
-      onError: () => notification.error({ message: "Что-то пошло не так!" }),
+      onError: () =>
+        customNotification.error({ message: "Что-то пошло не так!" }),
     },
   );
 

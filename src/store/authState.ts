@@ -1,10 +1,19 @@
 import { atom, selector } from "recoil";
 
+export type TMembers = {
+  id: string;
+  username: string;
+  points: number;
+};
+
 export type TTeam = {
   owner_id: string;
   id: string;
   invite_token: string;
   name: string;
+  description: string;
+  points: number;
+  members: TMembers[];
 };
 
 type TUserInfo = {

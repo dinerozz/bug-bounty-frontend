@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Layout, Typography } from "antd";
 import OrangeGradient from "../../../public/assets/orange-gradient.png";
 import MainLayout from "@/components/templates/MainLayout";

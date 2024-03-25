@@ -238,6 +238,12 @@ body {
 .ant-modal-close-x {
   color: white !important;
 }
+.ant-table-thead th {
+  color: #FFFFFFCC !important;
+}
+.ant-table {
+  color: #FFFFFFCC !important;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }

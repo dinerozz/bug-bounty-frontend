@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect, useRef } from "react";
 import { Header } from "@/components/organisms/Header";
 import { ConfigProvider, Layout } from "antd";
 import OrangeGradient from "../../../public/assets/orange-gradient.png";
@@ -13,6 +13,7 @@ const MainLayout: FC<Props> = ({ children }) => {
       theme={{
         token: {
           colorPrimary: "#ff4d4d",
+          colorBgContainer: "#3C22254C",
         },
       }}
     >

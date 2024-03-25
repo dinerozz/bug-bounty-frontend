@@ -14,6 +14,7 @@ import {
 import FormItem from "antd/lib/form/FormItem";
 import { UserOutlined } from "@ant-design/icons";
 import { Card } from "@/components/molecules/Card";
+import customNotification from "@/utils/customNotification";
 
 export const Profile = () => {
   const { data: user, isLoading } = useQuery("current-user", () =>
@@ -23,7 +24,7 @@ export const Profile = () => {
   return (
     <MainLayout>
       {isLoading ? (
-        <Spin size="large" />
+        <Spin size="large" className="flex items-center justify-center" />
       ) : (
         <div className="max-w-[600px] mx-auto">
           <Card title="Profile" subtitle={""}>
@@ -57,7 +58,7 @@ export const Profile = () => {
               <Button
                 className="bg-[#ff4d4d] border-0 hover:!text-black hover:opacity-[0.8] duration-300 text-black"
                 onClick={() =>
-                  notification.info({ message: "Данные сохранены" })
+                  customNotification.info({ message: "Данные сохранены" })
                 }
               >
                 Save
