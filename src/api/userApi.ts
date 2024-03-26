@@ -1,5 +1,5 @@
 import { api } from "@/api/index";
-import { TTeam } from "@/store/authState";
+import { TTeam, TUserInfo } from "@/store/authState";
 
 type TCurrentUserResponse = {
   id: string;
@@ -11,7 +11,7 @@ type TCurrentUserResponse = {
 type TUsersSearchResponse = TCurrentUserResponse;
 
 const getCurrentUser = () =>
-  api.get<TCurrentUserResponse>("/current").then((res) => res.data);
+  api.get<TUserInfo>("/current").then((res) => res.data);
 
 const findByUsername = (username: string) =>
   api

@@ -38,7 +38,7 @@ export const Profile = () => {
               >
                 <Input
                   type="text"
-                  className="outline-0  bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
+                  className="outline-0 focus:shadow-none bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
                   value={user?.email}
                 />
               </FormItem>
@@ -52,7 +52,7 @@ export const Profile = () => {
                 <Input
                   type="text"
                   value={user?.username}
-                  className="outline-0  bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
+                  className="outline-0 focus:shadow-none bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
                 />
               </FormItem>
               <Button

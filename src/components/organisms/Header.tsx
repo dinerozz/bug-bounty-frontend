@@ -3,6 +3,7 @@ import { Svglogo } from "@/components/atoms/Icons";
 import {
   Button,
   Dropdown,
+  Menu,
   MenuProps,
   notification,
   Space,
@@ -13,10 +14,13 @@ import { userInfoStateSelector } from "@/store/authState";
 import { useMutation, useQuery } from "react-query";
 import { authApi } from "@/api/authApi";
 import { userApi } from "@/api/userApi";
+import { AbilityContext, Can } from "@/routes/AppRoutes";
+import { useContext } from "react";
 
 export const Header = () => {
   const navigate = useNavigate();
   const [, setUserInfo] = useRecoilState(userInfoStateSelector);
+  const ability = useContext(AbilityContext);
 
   const isLoggedIn = Boolean(
     JSON.parse(JSON.stringify(localStorage.getItem("IS_LOGGED_IN"))),
@@ -26,6 +30,7 @@ export const Header = () => {
     "current-user",
     () => userApi.getCurrentUser(),
     {
+      onSuccess: (res) => setUserInfo(res),
       enabled: isLoggedIn,
     },
   );
@@ -44,12 +49,12 @@ export const Header = () => {
   };
 
   const NAV_LINKS = [
-    { label: "Home", route: "/" },
-    { label: "Scoreboard", route: "/scoreboard" },
-    { label: "Team", route: "/team", hidden: user?.team?.id },
-    { label: "Tasks", route: "/tasks" },
-    { label: "Polygon", route: "/polygon" },
-    { label: "Rules", route: "/rules" },
+    { label: "Home", route: "/", permission: "all" },
+    { label: "Scoreboard", route: "/scoreboard", permission: "all" },
+    { label: "Team", route: "/team", permission: "hasTeam" },
+    { label: "Tasks", route: "/tasks", permission: "all" },
+    { label: "Polygon", route: "/polygon", permission: "all" },
+    { label: "Rules", route: "/rules", permission: "all" },
   ];
 
   const items: MenuProps["items"] = [
@@ -100,6 +105,10 @@ export const Header = () => {
     },
   ];
 
+  const filteredItems = items.filter((item) => {
+    return !(item?.key === "1" && !ability.can("read", "admin"));
+  });
+
   return (
     <header className="border-b-[1px] border-b-neutral-700">
       <div className="px-10 flex justify-between items-center">
@@ -118,27 +127,30 @@ export const Header = () => {
 
         <nav className="flex gap-4 items-center text-transparent-white text-[16px] font-light h-[30px]">
           {NAV_LINKS.map((nav, index) => {
-            if (!nav.hidden)
-              return (
-                <NavLink
-                  key={index}
-                  to={nav.route}
-                  className={({ isActive }) => {
-                    return `hover:text-white hover:pb-1 hover:border-b border-[#ff4d4d] transition-all ${
-                      isActive ? "border-b border-[#ff4d4d]" : ""
-                    }`;
-                  }}
-                >
-                  {nav.label}
-                </NavLink>
-              );
+            return (
+              <Can I="read" a={nav.permission}>
+                {() => (
+                  <NavLink
+                    key={index}
+                    to={nav.route}
+                    className={({ isActive }) =>
+                      `hover:text-white hover:pb-1 hover:border-b border-[#ff4d4d] transition-all ${
+                        isActive ? "border-b border-[#ff4d4d]" : ""
+                      }`
+                    }
+                  >
+                    {nav.label}
+                  </NavLink>
+                )}
+              </Can>
+            );
           })}
         </nav>
         <div className="p-4 flex gap-2">
           {isLoggedIn ? (
             <Dropdown
               trigger={["click"]}
-              menu={{ items }}
+              overlay={<Menu items={filteredItems} />}
               overlayClassName="!bg-[#16171b]"
             >
               <a onClick={(e) => e.preventDefault()}>

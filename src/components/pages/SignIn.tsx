@@ -48,7 +48,7 @@ export const SignIn = () => {
             >
               <Input
                 type="text"
-                className="outline-0  bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
+                className="text-transparent-white bg-transparent border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
               />
             </FormItem>
             <FormItem
@@ -61,7 +61,7 @@ export const SignIn = () => {
             >
               <Input
                 type="password"
-                className="outline-0  bg-[rgba(60,34,37,0.3)] text-transparent-white border-granite-gray focus:border-granite-gray hover:border-granite-gray"
+                className="text-transparent-white bg-transparent border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
               />
             </FormItem>
 

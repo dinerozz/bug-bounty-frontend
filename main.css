@@ -244,6 +244,9 @@ body {
 .ant-table {
   color: #FFFFFFCC !important;
 }
+.ant-form-item-label {
+  text-align: start !important;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }

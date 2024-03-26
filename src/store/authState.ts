@@ -16,10 +16,11 @@ export type TTeam = {
   members: TMembers[];
 };
 
-type TUserInfo = {
+export type TUserInfo = {
   id: string;
   username: string;
   email: string;
+  isAdmin: boolean;
   team: TTeam;
 };
 

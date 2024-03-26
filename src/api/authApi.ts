@@ -1,4 +1,5 @@
 import { api } from "@/api/index";
+import { TTeam } from "@/store/authState";
 
 export type TAuthRequest = {
   username: string;
@@ -15,12 +16,7 @@ type TAuthResponse = {
   id: string;
   email: string;
   username: string;
-  team: {
-    owner_id: string;
-    id: string;
-    name: string;
-    invite_token: string;
-  };
+  team: TTeam;
 };
 
 const signUp = (payload: TSignUpRequest) =>

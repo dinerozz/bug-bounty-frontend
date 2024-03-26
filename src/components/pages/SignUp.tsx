@@ -40,7 +40,10 @@ export const SignUp = () => {
                 </Typography.Text>
               }
             >
-              <Input type="text" />
+              <Input
+                className="text-transparent-white bg-transparent border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
+                type="text"
+              />
             </FormItem>
             <FormItem
               name="email"
@@ -48,7 +51,10 @@ export const SignUp = () => {
                 <Typography.Text className="text-white">email</Typography.Text>
               }
             >
-              <Input type="email" />
+              <Input
+                className="text-transparent-white bg-transparent border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
+                type="email"
+              />
             </FormItem>
             <FormItem
               name="password"
@@ -67,7 +73,10 @@ export const SignUp = () => {
                 </Typography.Text>
               }
             >
-              <Input type="password" />
+              <Input
+                className="text-transparent-white bg-transparent border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
+                type="password"
+              />
             </FormItem>
             <div className="flex flex-col items-center justify-center">
               <Button
