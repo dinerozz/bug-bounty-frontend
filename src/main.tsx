@@ -10,6 +10,7 @@ import { RecoilRoot } from "recoil";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      cacheTime: 1000 * 60,
       refetchOnWindowFocus: false,
       retry: 1,
       staleTime: 1000,

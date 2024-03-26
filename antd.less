@@ -90,6 +90,20 @@ body {
   text-align: start !important;
 }
 
+.ant-radio-button-wrapper:first-child {
+  border-inline-start: 1px solid #ff4d4d;
+  border-inline-end: none;
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+  content: none;
+}
+
+.ant-radio-button-wrapper {
+  color: #FFFFFFCC;
+  border: 1px solid #ff4d4d;
+}
+
 
 ::-webkit-scrollbar {
   width: 8px;

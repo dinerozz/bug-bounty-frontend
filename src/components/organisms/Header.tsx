@@ -14,13 +14,18 @@ import { userInfoStateSelector } from "@/store/authState";
 import { useMutation, useQuery } from "react-query";
 import { authApi } from "@/api/authApi";
 import { userApi } from "@/api/userApi";
-import { AbilityContext, Can } from "@/routes/AppRoutes";
-import { useContext } from "react";
+import { Can } from "../atoms/Can";
+import { Subject } from "@/utils/defineUserAbilities";
+
+type TNav = {
+  label: string;
+  route: string;
+  permission: Subject;
+};
 
 export const Header = () => {
   const navigate = useNavigate();
   const [, setUserInfo] = useRecoilState(userInfoStateSelector);
-  const ability = useContext(AbilityContext);
 
   const isLoggedIn = Boolean(
     JSON.parse(JSON.stringify(localStorage.getItem("IS_LOGGED_IN"))),
@@ -35,6 +40,8 @@ export const Header = () => {
     },
   );
 
+  const isAdmin = user?.isAdmin;
+
   const logoutMutation = useMutation(async () => authApi.logout(), {
     onSuccess: () => {
       localStorage.removeItem("IS_LOGGED_IN");
@@ -48,7 +55,7 @@ export const Header = () => {
     logoutMutation.mutate();
   };
 
-  const NAV_LINKS = [
+  const NAV_LINKS: TNav[] = [
     { label: "Home", route: "/", permission: "all" },
     { label: "Scoreboard", route: "/scoreboard", permission: "all" },
     { label: "Team", route: "/team", permission: "hasTeam" },
@@ -105,9 +112,7 @@ export const Header = () => {
     },
   ];
 
-  const filteredItems = items.filter((item) => {
-    return !(item?.key === "1" && !ability.can("read", "admin"));
-  });
+  const filteredItems = items.filter((item) => isAdmin || item?.key !== "1");
 
   return (
     <header className="border-b-[1px] border-b-neutral-700">
