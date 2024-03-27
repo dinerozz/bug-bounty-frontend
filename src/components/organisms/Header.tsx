@@ -125,7 +125,7 @@ export const Header = () => {
             <Svglogo fill={"currentColor"} fontSize={40} />
             POLYGON
           </Link>
-          <Link to="/" className="text-xs text-transparent-white">
+          <Link to="/" className="ml-2 text-xs text-transparent-white">
             by 1729
           </Link>
         </div>
