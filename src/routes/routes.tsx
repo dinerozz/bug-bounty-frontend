@@ -8,6 +8,8 @@ import { Objects } from "@/components/pages/Objects";
 import { Team } from "@/components/pages/Team";
 import { MyTeam } from "@/components/pages/MyTeam";
 import { Admin } from "@/components/pages/Admin";
+import { Polygon } from "@/components/pages/Polygon";
+import { Reports } from "@/components/pages/Reports";
 
 export const privateRoutes = [
   {
@@ -25,6 +27,10 @@ export const privateRoutes = [
   {
     path: "/admin",
     element: <Admin />,
+  },
+  {
+    path: "/reports",
+    element: <Reports />,
   },
 ];
 
@@ -52,5 +58,9 @@ export const publicRoutes = [
   {
     path: "/objects",
     element: <Objects />,
+  },
+  {
+    path: "/polygon",
+    element: <Polygon />,
   },
 ];

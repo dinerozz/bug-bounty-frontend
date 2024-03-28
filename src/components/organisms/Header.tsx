@@ -62,6 +62,7 @@ export const Header = () => {
     { label: "Tasks", route: "/tasks", permission: "all" },
     { label: "Polygon", route: "/polygon", permission: "all" },
     { label: "Rules", route: "/rules", permission: "all" },
+    { label: "Reports", route: "/reports", permission: "all" },
   ];
 
   const items: MenuProps["items"] = [

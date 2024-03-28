@@ -87,6 +87,11 @@ export const MyTeam: FC = () => {
       title: "points",
       dataIndex: "points",
       key: "points",
+      render: (points) => (
+        <Typography.Text className="text-transparent-white">
+          {points ?? 0}
+        </Typography.Text>
+      ),
     },
   ];
 
