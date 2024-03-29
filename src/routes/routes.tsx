@@ -9,7 +9,9 @@ import { Team } from "@/components/pages/Team";
 import { MyTeam } from "@/components/pages/MyTeam";
 import { Admin } from "@/components/pages/Admin";
 import { Polygon } from "@/components/pages/Polygon";
+import { SendReport } from "@/components/pages/SendReport";
 import { Reports } from "@/components/pages/Reports";
+import { ReportDetails } from "@/components/pages/ReportDetails";
 
 export const privateRoutes = [
   {
@@ -29,8 +31,16 @@ export const privateRoutes = [
     element: <Admin />,
   },
   {
+    path: "/send-report",
+    element: <SendReport />,
+  },
+  {
     path: "/reports",
     element: <Reports />,
+  },
+  {
+    path: "/report-details/:id",
+    element: <ReportDetails />,
   },
 ];
 

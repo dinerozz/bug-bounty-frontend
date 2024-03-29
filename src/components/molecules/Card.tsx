@@ -1,12 +1,15 @@
 import { FC } from "react";
-import { Spin, Typography } from "antd";
+import { Spin, Tag, Typography } from "antd";
+import { handleReportStatus } from "@/utils/handleReportStatus";
 
 export const Card: FC<{
   title: string;
-  subtitle: string;
+  subtitle?: string;
   children: JSX.Element;
   loading?: boolean;
-}> = ({ title, subtitle, children, loading = false }) => {
+  tag?: string;
+  reportStatus?: string;
+}> = ({ title, subtitle, children, tag, reportStatus, loading = false }) => {
   return loading ? (
     <Spin size="large" className="flex items-center justify-center" />
   ) : (
@@ -16,9 +19,25 @@ export const Card: FC<{
         <Typography.Text className="!text-transparent-white text-xl">
           {title}
         </Typography.Text>
-        <Typography.Text className="!text-transparent-white block">
-          {subtitle}
-        </Typography.Text>
+        {subtitle?.length! > 0 && (
+          <Typography.Text className="!text-transparent-white block">
+            {subtitle}
+          </Typography.Text>
+        )}
+        {tag?.length! > 0 && reportStatus?.length! > 0 && (
+          <div className="flex">
+            <Tag
+              color="success"
+              className="w-fit block bg-green-700 text-transparent-white"
+            >
+              {tag}
+            </Tag>
+            <div className="w-fit">
+              {handleReportStatus(reportStatus ?? "")}
+            </div>
+          </div>
+        )}
+
         {children}
       </div>
     </div>
