@@ -37,7 +37,6 @@ export const Card: FC<{
             </div>
           </div>
         )}
-
         {children}
       </div>
     </div>

@@ -41,20 +41,22 @@ export const ReportDetails = () => {
             </Typography.Text>
           </div>
           <Divider />
-          <div className="mt-6">
-            <Typography.Text className="text-transparent-white block text-lg font-bold">
-              Review details
-            </Typography.Text>
-            <Typography.Text className="text-transparent-white">
-              Reviewer: {reportDetails?.reviewer_username}
-            </Typography.Text>
-            <Typography.Text className="text-transparent-white block text-lg font-bold mt-4">
-              Verdict
-            </Typography.Text>
-            <Typography.Text className="text-transparent-white">
-              Reviewer: {reportDetails?.review_text}
-            </Typography.Text>
-          </div>
+          {reportDetails?.reviewer_id && (
+            <div className="mt-6">
+              <Typography.Text className="text-transparent-white block text-lg font-bold">
+                Review details
+              </Typography.Text>
+              <Typography.Text className="text-transparent-white">
+                Reviewer: {reportDetails?.reviewer_username}
+              </Typography.Text>
+              <Typography.Text className="text-transparent-white block text-lg font-bold mt-4">
+                Verdict
+              </Typography.Text>
+              <Typography.Text className="text-transparent-white">
+                Reviewer: {reportDetails?.review_text}
+              </Typography.Text>
+            </div>
+          )}
         </div>
       </Card>
     </MainLayout>
