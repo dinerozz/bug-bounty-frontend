@@ -58,11 +58,11 @@ export const Header = () => {
   const NAV_LINKS: TNav[] = [
     { label: "Home", route: "/", permission: "all" },
     { label: "Scoreboard", route: "/scoreboard", permission: "all" },
-    { label: "Team", route: "/team", permission: "hasTeam" },
+    { label: "Team", route: "/team", permission: "team" },
     { label: "Tasks", route: "/tasks", permission: "all" },
     { label: "Polygon", route: "/polygon", permission: "all" },
     { label: "Rules", route: "/rules", permission: "all" },
-    { label: "Reports", route: "/reports", permission: "all" },
+    { label: "Reports", route: "/reports", permission: "teamReports" },
   ];
 
   const items: MenuProps["items"] = [
@@ -134,10 +134,9 @@ export const Header = () => {
         <nav className="flex gap-4 items-center text-transparent-white text-[16px] font-light h-[30px]">
           {NAV_LINKS.map((nav, index) => {
             return (
-              <Can I="read" a={nav.permission}>
+              <Can I="read" a={nav.permission} key={index}>
                 {() => (
                   <NavLink
-                    key={index}
                     to={nav.route}
                     className={({ isActive }) =>
                       `hover:text-white hover:pb-1 hover:border-b border-[#ff4d4d] transition-all ${

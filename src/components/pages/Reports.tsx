@@ -53,7 +53,7 @@ export const Reports = () => {
       key: "action",
       render: (_, report) => (
         <Button
-          onClick={() => navigate(`/report-details/${report.id}`)}
+          onClick={() => navigate(`/report/details/${report.id}`)}
           size="small"
           className="mx-auto text-transparent-white flex items-center justify-center border-primaryColor"
         >

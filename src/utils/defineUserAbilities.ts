@@ -1,7 +1,7 @@
 import { TUserInfo } from "@/store/authState";
 
-export type Action = "read" | "write";
-export type Subject = "all" | "admin" | "hasTeam";
+export type Action = "read" | "write" | "readTeamReports" | "access";
+export type Subject = "all" | "admin" | "hasTeam" | "teamReports" | "team";
 
 export interface Rules {
   can: Partial<Record<Action, Subject[]>>;
@@ -21,8 +21,12 @@ export const defineUserAbilities = (user: TUserInfo | null): Abilities => {
   rules.can.read = ["all"];
 
   if (user?.team) {
-    rules.cannot.read = [...(rules.cannot.read || []), "hasTeam"];
+    rules.can.read = ["teamReports", "all"];
+    rules.cannot.read = ["team"];
+  } else {
+    rules.cannot.read = ["teamReports"];
   }
+
   if (!user?.isAdmin) {
     rules.cannot.read = [...(rules.cannot.read || []), "admin"];
   }

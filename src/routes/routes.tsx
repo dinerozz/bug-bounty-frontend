@@ -39,7 +39,7 @@ export const privateRoutes = [
     element: <Reports />,
   },
   {
-    path: "/report-details/:id",
+    path: "/report/details/:id",
     element: <ReportDetails />,
   },
 ];
