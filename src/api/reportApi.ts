@@ -4,6 +4,7 @@ export type TSendReportPayload = {
   title: string;
   description: string;
   category: string;
+  team_id: number;
 };
 
 type TSendReportResponse = {

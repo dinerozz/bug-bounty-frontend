@@ -2,22 +2,35 @@ import { Avatar, Table } from "antd";
 import React from "react";
 import MainLayout from "@/components/templates/MainLayout";
 import { Card } from "@/components/molecules/Card";
+import { useQuery } from "react-query";
+import { scoreboardApi } from "@/api/scoreboardApi";
+import customNotification from "@/utils/customNotification";
+import { AxiosError } from "axios";
 
 export const Scoreboard = () => {
+  const { data: scoreboard, isLoading } = useQuery(
+    "scoreboard",
+    () => scoreboardApi.getScoreboard(),
+    {
+      onError: (err: AxiosError<{ error: string }>) =>
+        customNotification.error({ message: err.response?.data.error }),
+    },
+  );
+
   const columns = [
     {
       title: "Место",
-      dataIndex: "place",
-      key: "place",
+      dataIndex: "id",
+      key: "id",
       width: "100px",
     },
     {
       title: "Команда",
-      dataIndex: "team",
-      key: "team",
-      render: (text: string, record: { avatar: string }) => (
+      dataIndex: "name",
+      key: "name",
+      render: (text: string) => (
         <div style={{ display: "flex", alignItems: "center" }}>
-          <Avatar src={record.avatar} style={{ marginRight: 8 }} />
+          <Avatar src={""} style={{ marginRight: 8 }} />
           {text}
         </div>
       ),
@@ -31,30 +44,6 @@ export const Scoreboard = () => {
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      place: 1,
-      team: "1729",
-      points: 1337,
-      avatar: "https://placeimg.com/64/64/any",
-    },
-    {
-      key: "2",
-      place: 2,
-      team: "Aupet Reborn",
-      points: 1111,
-      avatar: "https://placeimg.com/64/64/any",
-    },
-    {
-      key: "3",
-      place: 3,
-      team: "Команда C",
-      points: 555,
-      avatar: "https://placeimg.com/64/64/any",
-    },
-  ];
-
   return (
     <MainLayout>
       <Card title={`Scoreboard`} subtitle="">
@@ -62,7 +51,7 @@ export const Scoreboard = () => {
           <Table
             className="w-full"
             columns={columns}
-            dataSource={data}
+            dataSource={scoreboard}
             pagination={false}
           />
         </div>

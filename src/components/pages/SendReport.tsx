@@ -8,6 +8,8 @@ import { useMutation } from "react-query";
 import { reportApi, TSendReportPayload } from "@/api/reportApi";
 import customNotification from "@/utils/customNotification";
 import { AxiosError } from "axios";
+import { useRecoilState } from "recoil";
+import { userInfoStateSelector } from "@/store/authState";
 
 const options = [
   { label: "web", value: "web" },
@@ -17,6 +19,7 @@ const options = [
 
 export const SendReport = () => {
   const [category, setCategory] = useState("web");
+  const [userInfo] = useRecoilState(userInfoStateSelector);
 
   const sendReportMutation = useMutation(
     (payload: TSendReportPayload) => reportApi.sendReport(payload),
@@ -29,7 +32,11 @@ export const SendReport = () => {
   );
 
   const handleSubmitReport = (payload: TSendReportPayload) => {
-    sendReportMutation.mutate(payload);
+    const reportData = {
+      ...payload,
+      team_id: Number(userInfo?.team?.id),
+    };
+    sendReportMutation.mutate(reportData);
   };
 
   return (
