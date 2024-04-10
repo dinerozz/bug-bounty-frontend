@@ -10,7 +10,7 @@ import { MyTeam } from "@/components/pages/MyTeam";
 import { Admin } from "@/components/pages/Admin";
 import { Polygon } from "@/components/pages/Polygon";
 import { SendReport } from "@/components/pages/SendReport";
-import { Reports } from "@/components/pages/Reports";
+import { ReportsPage } from "@/components/pages/ReportsPage";
 import { ReportDetails } from "@/components/pages/ReportDetails";
 
 export const privateRoutes = [
@@ -36,10 +36,14 @@ export const privateRoutes = [
   },
   {
     path: "/reports",
-    element: <Reports />,
+    element: <ReportsPage />,
   },
   {
-    path: "/report/details/:id",
+    path: "/report/:id/details",
+    element: <ReportDetails />,
+  },
+  {
+    path: "/admin/report/:id/details",
     element: <ReportDetails />,
   },
 ];

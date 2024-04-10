@@ -38,6 +38,9 @@ const sendReport = (payload: TSendReportPayload) =>
 const getReports = () =>
   api.get<TReportsResponse[]>("/report").then((res) => res.data);
 
+const getAdminReports = () =>
+  api.get<TReportsResponse[]>("/admin/reports").then((res) => res.data);
+
 const getReportDetails = (id: string) =>
   api
     .get<TReportDetails>("/report/details", { params: { reportId: id } })
@@ -47,4 +50,5 @@ export const reportApi = {
   sendReport,
   getReports,
   getReportDetails,
+  getAdminReports,
 };

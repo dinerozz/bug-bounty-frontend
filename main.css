@@ -258,6 +258,9 @@ body {
   color: #FFFFFFCC;
   border: 1px solid #ff4d4d;
 }
+.ant-tabs-tab-btn {
+  color: #FFFFFFCC;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }

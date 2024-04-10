@@ -150,7 +150,11 @@ export const MyTeam: FC = () => {
           subtitle={myTeam?.description ?? "Description"}
         >
           <div className="mt-4 border-solid border-[1px] border-granite-gray w-full bg-[rgba(60,34,37,0.3)] backdrop-blur-md p-5 rounded-lg shadow-sm shadow-orange-700 relative">
+            <p className="text-transparent-white text-lg font-bold">
+              team points: {myTeam?.points}
+            </p>
             <Table
+              loading={isMyTeamLoading}
               pagination={false}
               columns={columns}
               className="w-full"
