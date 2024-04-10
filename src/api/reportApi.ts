@@ -18,6 +18,7 @@ type TSendReportResponse = {
 
 export type TReportsResponse = {
   id: number;
+  reportId: number;
   title: string;
   category: string;
   description?: string;

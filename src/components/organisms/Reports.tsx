@@ -55,8 +55,8 @@ export const Reports: FC<TReportsProps> = ({
           onClick={() =>
             navigate(
               isAdmin
-                ? `/admin/report/${report.id}/details`
-                : `/report/${report.id}/details`,
+                ? `/admin/report/${report.report_id}/details`
+                : `/report/${report.report_id}/details`,
             )
           }
           size="small"
