@@ -1,7 +1,19 @@
 import { FC, useState } from "react";
 import MainLayout from "@/components/templates/MainLayout";
 import { Card } from "@/components/molecules/Card";
-import { Button, Input, Modal, Table, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Form,
+  Input,
+  List,
+  message,
+  Modal,
+  Table,
+  Typography,
+  Upload,
+  UploadProps,
+} from "antd";
 import { useRecoilState } from "recoil";
 import { teamInfoStateSelector, TMembers } from "@/store/authState";
 import customNotification from "@/utils/customNotification";
@@ -10,10 +22,35 @@ import { teamApi } from "@/api/teamApi";
 import { AxiosError } from "axios";
 import { userApi } from "@/api/userApi";
 import { ColumnType } from "antd/lib/table";
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  UserDeleteOutlined,
+} from "@ant-design/icons";
+
+const getBase64 = (img: File, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file: File) => {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+};
 
 export const MyTeam: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [teamInfo, setTeamInfo] = useRecoilState(teamInfoStateSelector);
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -95,6 +132,45 @@ export const MyTeam: FC = () => {
     },
   ];
 
+  const handleChange: UploadProps["onChange"] = (info) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === "done") {
+      getBase64(info.file.originFileObj as File, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+
+  const uploadButton = (
+    <button style={{ border: 0, background: "none" }} type="button">
+      {loading ? (
+        <LoadingOutlined rev={undefined} />
+      ) : (
+        <PlusOutlined rev={undefined} />
+      )}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
+
+  const listItems = [
+    {
+      title: "Ant Design Title 1",
+    },
+    {
+      title: "Ant Design Title 2",
+    },
+    {
+      title: "Ant Design Title 3",
+    },
+    {
+      title: "Ant Design Title 4",
+    },
+  ];
+
   return (
     <MainLayout>
       <div className="max-w-[800px] mx-auto">
@@ -145,6 +221,72 @@ export const MyTeam: FC = () => {
             </div>
           </Card>
         )}
+        <Card title="Team Settings" subtitle="">
+          <div className="flex w-full gap-4 items-center">
+            <div>
+              <Typography.Text className="text-transparent-white text-lg">
+                Name: {myTeam?.name}
+              </Typography.Text>
+              <Form layout="vertical">
+                <Form.Item className="w-fit mt-4">
+                  <Upload
+                    name="avatar"
+                    listType="picture-circle"
+                    className="text-transparent-white"
+                    showUploadList={false}
+                    action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                    beforeUpload={beforeUpload}
+                    onChange={handleChange}
+                  >
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{ width: "100%" }}
+                      />
+                    ) : (
+                      uploadButton
+                    )}
+                  </Upload>
+                </Form.Item>
+              </Form>
+            </div>
+            <List
+              className="w-full text-transparent-white"
+              itemLayout="horizontal"
+              dataSource={myTeam?.members}
+              renderItem={(member, index) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar
+                        src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                      />
+                    }
+                    title={
+                      <div className="flex justify-between items-center">
+                        <Typography.Text className="text-transparent-white">
+                          {member.username}
+                        </Typography.Text>
+                        <Typography.Text className="text-transparent-white">
+                          {member.id === user?.team.owner_id
+                            ? "team leader"
+                            : ""}
+                        </Typography.Text>
+                      </div>
+                    }
+                    description="cyber security enthusiast"
+                  />
+                  {member.id !== user?.team?.owner_id && (
+                    <Button size="small" className="text-transparent-white">
+                      <UserDeleteOutlined rev={undefined} />
+                    </Button>
+                  )}
+                </List.Item>
+              )}
+            />
+          </div>
+        </Card>
         <Card
           title={`Team ${myTeam?.name}`}
           subtitle={myTeam?.description ?? "Description"}

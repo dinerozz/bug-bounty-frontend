@@ -261,6 +261,12 @@ body {
 .ant-tabs-tab-btn {
   color: #FFFFFFCC;
 }
+.ant-list-item-meta-title {
+  color: #FFFFFFCC !important;
+}
+.ant-list-item-meta-description {
+  color: #FFFFFFCC !important;
+}
 ::-webkit-scrollbar {
   width: 8px;
 }
