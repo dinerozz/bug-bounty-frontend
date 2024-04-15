@@ -46,6 +46,10 @@ export const ReportDetails = () => {
     {
       onSuccess: () => {
         customNotification.success({ message: "Message sent" });
+        setMsg({
+          message: "",
+          report_id: Number(reportId),
+        });
         refetchMessages();
       },
       onError: (err: AxiosError<{ error: string }>) =>
@@ -112,10 +116,11 @@ export const ReportDetails = () => {
       <Card title="Send message">
         <div>
           <TextArea
+            value={msg.message}
             onChange={(e) =>
               setMsg({ message: e.target.value, report_id: Number(reportId) })
             }
-            className="bg-transparent text-transparent-white"
+            className="mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
           />
           <Button
             className="mt-4 text-green-500 border-green-500"
