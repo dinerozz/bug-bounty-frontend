@@ -1,15 +1,22 @@
 import MainLayout from "@/components/templates/MainLayout";
 import { Card } from "@/components/molecules/Card";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { reportApi } from "@/api/reportApi";
-import { Divider, Spin, Typography } from "antd";
+import { Button, Divider, Input, Spin, Typography } from "antd";
 import customNotification from "@/utils/customNotification";
 import { AxiosError } from "axios";
 import { Forbidden } from "@/components/organisms/Forbidden";
+import { conversationApi, TSendMessageRequest } from "@/api/conversationApi";
+import TextArea from "antd/lib/input/TextArea";
+import { useState } from "react";
 
 export const ReportDetails = () => {
   const { id: reportId } = useParams();
+  const [msg, setMsg] = useState({
+    report_id: 0,
+    message: "",
+  });
 
   const {
     data: reportDetails,
@@ -22,6 +29,27 @@ export const ReportDetails = () => {
       onError: (err: AxiosError<{ error: string }>) =>
         customNotification.error({ message: err?.response?.data?.error }),
       enabled: reportId?.length! > 0,
+    },
+  );
+
+  const {
+    data: messages,
+    isLoading: isMessagesLoading,
+    refetch: refetchMessages,
+  } = useQuery("messages", () => conversationApi.getMessages(reportId ?? ""), {
+    onError: (err: AxiosError<{ error: string }>) =>
+      customNotification.error({ message: err.response?.data?.error }),
+  });
+
+  const sendMessageMutation = useMutation(
+    (payload: TSendMessageRequest) => conversationApi.sendMessage(payload),
+    {
+      onSuccess: () => {
+        customNotification.success({ message: "Message sent" });
+        refetchMessages();
+      },
+      onError: (err: AxiosError<{ error: string }>) =>
+        customNotification.error({ message: err?.response?.data?.error }),
     },
   );
 
@@ -72,6 +100,31 @@ export const ReportDetails = () => {
           </div>
         </Card>
       )}
+
+      {messages?.map((message, index) => (
+        <Card title={`messageId: ${message.id}`} key={index}>
+          <Typography.Text className="block mt-4 text-lg text-green-500">
+            Message: {message.message}
+          </Typography.Text>
+        </Card>
+      ))}
+
+      <Card title="Send message">
+        <div>
+          <TextArea
+            onChange={(e) =>
+              setMsg({ message: e.target.value, report_id: Number(reportId) })
+            }
+            className="bg-transparent text-transparent-white"
+          />
+          <Button
+            className="mt-4 text-green-500 border-green-500"
+            onClick={() => sendMessageMutation.mutate(msg)}
+          >
+            Send message
+          </Button>
+        </div>
+      </Card>
     </MainLayout>
   );
 };
