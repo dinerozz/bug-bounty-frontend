@@ -1,4 +1,4 @@
 // @ts-ignore
-export { default as Svgatom } from "./atom";
+export { default as Svgatom } from "./Atom";
 // @ts-ignore
-export { default as Svglogo } from "./logo";
+export { default as Svglogo } from "./Logo";
