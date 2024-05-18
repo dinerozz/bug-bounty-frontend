@@ -19,6 +19,7 @@ export const SignIn = () => {
     async (payload: TAuthRequest) => authApi.login(payload),
     {
       onSuccess: (res) => {
+        // @ts-ignore
         setUserInfo(res);
         localStorage.setItem("IS_LOGGED_IN", "true");
         customNotification.success({ message: "Успешная авторизация" });
