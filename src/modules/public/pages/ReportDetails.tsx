@@ -97,7 +97,7 @@ export const ReportDetails = () => {
                   Verdict
                 </Typography.Text>
                 <Typography.Text className="text-transparent-white">
-                  Reviewer: {reportDetails?.review_text}
+                  {reportDetails?.review_text}
                 </Typography.Text>
               </div>
             )}
