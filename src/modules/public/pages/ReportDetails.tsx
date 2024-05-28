@@ -3,10 +3,10 @@ import { Card } from "@/components/molecules/Card";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { reportApi } from "@/api/reportApi";
-import { Button, Divider, Input, Spin, Typography } from "antd";
+import { Button, Divider, Input, Spin, Tag, Typography } from "antd";
 import customNotification from "@/utils/customNotification";
 import { AxiosError } from "axios";
-import { Forbidden } from "@/components/organisms/Forbidden";
+import { NotFound } from "@/components/organisms/NotFound";
 import { conversationApi, TSendMessageRequest } from "@/api/conversationApi";
 import TextArea from "antd/lib/input/TextArea";
 import { useState } from "react";
@@ -60,7 +60,7 @@ export const ReportDetails = () => {
   return (
     <MainLayout>
       {isError ? (
-        <Forbidden />
+        <NotFound />
       ) : isLoading ? (
         <Spin className="flex items-center justify-center mt-10" size="large" />
       ) : (
@@ -106,30 +106,48 @@ export const ReportDetails = () => {
       )}
 
       {messages?.map((message, index) => (
-        <Card title={`messageId: ${message.id}`} key={index}>
+        <Card
+          title={
+            <div className="flex items-center">
+              {message.is_admin ? (
+                <Tag className="text-white">admin</Tag>
+              ) : (
+                <Tag className="text-white">participant</Tag>
+              )}
+              {message.username}
+            </div>
+          }
+          key={index}
+        >
           <Typography.Text className="block mt-4 text-lg text-green-500">
             Message: {message.message}
           </Typography.Text>
         </Card>
       ))}
 
-      <Card title="Send message">
-        <div>
-          <TextArea
-            value={msg.message}
-            onChange={(e) =>
-              setMsg({ message: e.target.value, report_id: Number(reportId) })
-            }
-            className="mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
-          />
-          <Button
-            className="mt-4 text-green-500 border-green-500"
-            onClick={() => sendMessageMutation.mutate(msg)}
-          >
-            Send message
-          </Button>
-        </div>
-      </Card>
+      {(reportDetails?.report_data?.status === "PENDING" ||
+        reportDetails?.report_data?.status === "NEED MORE DETAILS") && (
+        <Card title="Send message">
+          <div>
+            <TextArea
+              value={msg.message}
+              onChange={(e) =>
+                setMsg({
+                  message: e.target.value,
+                  report_id: Number(reportId),
+                })
+              }
+              className="mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
+            />
+            <Button
+              className="mt-4 text-green-500 border-green-500"
+              onClick={() => sendMessageMutation.mutate(msg)}
+            >
+              Send message
+            </Button>
+          </div>
+        </Card>
+      )}
     </MainLayout>
   );
 };

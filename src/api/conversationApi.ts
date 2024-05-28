@@ -15,8 +15,10 @@ type TSendMessagesResponse = {
 type TGetMessagesResponse = {
   id: string;
   report_id: number;
+  username: string;
   user_id: string;
   message: string;
+  is_admin: boolean;
 };
 
 const sendMessage = (payload: TSendMessageRequest) =>

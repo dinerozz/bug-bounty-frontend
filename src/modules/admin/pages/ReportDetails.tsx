@@ -11,11 +11,12 @@ import {
   Modal,
   Radio,
   Spin,
+  Tag,
   Typography,
 } from "antd";
 import customNotification from "@/utils/customNotification";
 import { AxiosError } from "axios";
-import { Forbidden } from "@/components/organisms/Forbidden";
+import { NotFound } from "@/components/organisms/NotFound";
 import { conversationApi, TSendMessageRequest } from "@/api/conversationApi";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
@@ -97,7 +98,7 @@ export const ReportDetails = () => {
   return (
     <MainLayout>
       {isError ? (
-        <Forbidden />
+        <NotFound />
       ) : isLoading ? (
         <Spin className="flex items-center justify-center mt-10" size="large" />
       ) : (
@@ -139,119 +140,131 @@ export const ReportDetails = () => {
                 </Typography.Text>
               </div>
             )}
-            {reportDetails?.report_data?.status === "PENDING" ||
-              (reportDetails?.report_data?.status === "NEED MORE DETAILS" && (
-                <>
-                  <div className="flex gap-4">
-                    <Button
-                      onClick={() => setOpen(true)}
-                      className="mt-4 text-green-500 border-green-500 hover:!border-green-300 hover:!text-green-300"
-                    >
-                      VERDICT
-                    </Button>
-                  </div>
-                  <Modal
-                    open={open}
-                    onCancel={() => setOpen(false)}
-                    maskClosable
-                    closable
-                    footer={false}
+            {(reportDetails?.report_data?.status === "PENDING" ||
+              reportDetails?.report_data?.status === "NEED MORE DETAILS") && (
+              <>
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() => setOpen(true)}
+                    className="mt-4 text-green-500 border-green-500 hover:!border-green-300 hover:!text-green-300"
                   >
-                    <Form layout="vertical" onFinish={handleSendReview}>
+                    VERDICT
+                  </Button>
+                </div>
+                <Modal
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  maskClosable
+                  closable
+                  footer={false}
+                >
+                  <Form layout="vertical" onFinish={handleSendReview}>
+                    <FormItem
+                      className="mt-4"
+                      name="status"
+                      label={
+                        <Typography.Text className="!text-start text-lg font-bold text-transparent-white">
+                          STATUS
+                        </Typography.Text>
+                      }
+                    >
+                      <Radio.Group
+                        options={options}
+                        onChange={(event) => setStatus(event.target.value)}
+                        value={status}
+                        optionType="button"
+                        buttonStyle="solid"
+                        className="text-transparent-white"
+                      />
+                    </FormItem>
+                    {status === "APPROVED" && (
                       <FormItem
                         className="mt-4"
-                        name="status"
+                        name="points"
                         label={
                           <Typography.Text className="!text-start text-lg font-bold text-transparent-white">
-                            STATUS
+                            Points
                           </Typography.Text>
                         }
                       >
-                        <Radio.Group
-                          options={options}
-                          onChange={(event) => setStatus(event.target.value)}
-                          value={status}
-                          optionType="button"
-                          buttonStyle="solid"
-                          className="text-transparent-white"
+                        <Input
+                          type="number"
+                          size="large"
+                          className="text-transparent-white bg-transparent max-w-[100px] border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
                         />
                       </FormItem>
-                      {status === "APPROVED" && (
-                        <FormItem
-                          className="mt-4"
-                          name="points"
-                          label={
-                            <Typography.Text className="!text-start text-lg font-bold text-transparent-white">
-                              Points
-                            </Typography.Text>
-                          }
-                        >
-                          <Input
-                            type="number"
-                            size="large"
-                            className="text-transparent-white bg-transparent max-w-[100px] border-solid border-[1px] border-granite-gray backdrop-blur-md outline-0 focus:shadow-none rounded-lg shadow-sm shadow-orange-700"
-                          />
-                        </FormItem>
-                      )}
-                      <FormItem
-                        name="review_text"
-                        label={
-                          <Typography.Text className="text-transparent-white block text-lg font-bold">
-                            Admin response
-                          </Typography.Text>
-                        }
-                      >
-                        <TextArea
-                          rows={10}
-                          className="text-white mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
-                        />
-                      </FormItem>
+                    )}
+                    <FormItem
+                      name="review_text"
+                      label={
+                        <Typography.Text className="text-transparent-white block text-lg font-bold">
+                          Admin response
+                        </Typography.Text>
+                      }
+                    >
+                      <TextArea
+                        rows={10}
+                        className="text-white mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
+                      />
+                    </FormItem>
 
-                      <Button
-                        htmlType="submit"
-                        className="mt-4 text-primaryColor border-primaryColor"
-                      >
-                        SAVE
-                      </Button>
-                    </Form>
-                  </Modal>
-                </>
-              ))}
+                    <Button
+                      htmlType="submit"
+                      className="mt-4 text-primaryColor border-primaryColor"
+                    >
+                      SAVE
+                    </Button>
+                  </Form>
+                </Modal>
+              </>
+            )}
           </div>
         </Card>
       )}
 
       {messages?.map((message, index) => (
-        <Card title={`messageId: ${message.id}`} key={index}>
+        <Card
+          title={
+            <div className="flex items-center">
+              {message.is_admin ? (
+                <Tag className="text-white">admin</Tag>
+              ) : (
+                <Tag className="text-white">participant</Tag>
+              )}
+              {message.username}
+            </div>
+          }
+          key={index}
+        >
           <Typography.Text className="block mt-4 text-lg text-green-500">
             Message: {message.message}
           </Typography.Text>
         </Card>
       ))}
 
-      {reportDetails?.report_data?.status === "PENDING" ||
-        (reportDetails?.report_data?.status === "NEED MORE DETAILS" && (
-          <Card title="Send message">
-            <div>
-              <TextArea
-                value={msg.message}
-                onChange={(e) =>
-                  setMsg({
-                    message: e.target.value,
-                    report_id: Number(reportId),
-                  })
-                }
-                className="mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
-              />
-              <Button
-                className="mt-4 text-green-500 border-green-500"
-                onClick={() => sendMessageMutation.mutate(msg)}
-              >
-                SEND MESSAGE
-              </Button>
-            </div>
-          </Card>
-        ))}
+      {(reportDetails?.report_data?.status === "PENDING" ||
+        reportDetails?.report_data?.status === "NEED MORE DETAILS") && (
+        <Card title="Send message">
+          <div>
+            <TextArea
+              value={msg.message}
+              onChange={(e) =>
+                setMsg({
+                  message: e.target.value,
+                  report_id: Number(reportId),
+                })
+              }
+              className="mt-4 block w-full text-transparent-white bg-transparent border-[1px] w-[400px] border-solid border-granite-gray backdrop-blur-md outline-0 focus:border-[#ff7a75] hover:border-[#ff7a75] focus:shadow-0 focus:outline-0 rounded-lg shadow-sm shadow-orange-700"
+            />
+            <Button
+              className="mt-4 text-green-500 border-green-500"
+              onClick={() => sendMessageMutation.mutate(msg)}
+            >
+              SEND MESSAGE
+            </Button>
+          </div>
+        </Card>
+      )}
     </MainLayout>
   );
 };

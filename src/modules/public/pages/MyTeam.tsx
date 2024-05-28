@@ -280,7 +280,8 @@ export const MyTeam: FC = () => {
                             {member.username}
                           </Typography.Text>
                           <Typography.Text className="text-transparent-white">
-                            {member.id === user?.team.owner_id!
+                            {user?.team.owner_id &&
+                            member.id === user?.team.owner_id!
                               ? "team leader"
                               : ""}
                           </Typography.Text>

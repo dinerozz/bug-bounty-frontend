@@ -3,7 +3,7 @@ import { Spin, Tag, Typography } from "antd";
 import { handleReportStatus } from "@/utils/handleReportStatus";
 
 export const Card: FC<{
-  title: string;
+  title: JSX.Element | string;
   subtitle?: string;
   children: JSX.Element;
   loading?: boolean;
