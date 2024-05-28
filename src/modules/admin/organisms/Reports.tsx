@@ -47,7 +47,7 @@ export const Reports: FC<TReportsProps> = ({ loading, reports = [] }) => {
       key: "action",
       render: (_, report) => (
         <Button
-          onClick={() => navigate(`/report/${report.report_id}/details`)}
+          onClick={() => navigate(`/admin/report/${report.report_id}/details`)}
           size="small"
           className="mx-auto text-transparent-white flex items-center justify-center border-primaryColor"
         >

@@ -1,17 +1,18 @@
-import { SignUp } from "@/components/pages/SignUp";
-import Home from "@/components/pages/Home";
-import { SignIn } from "@/components/pages/SignIn";
-import { Profile } from "@/components/pages/Profile";
-import { Scoreboard } from "@/components/pages/Scoreboard";
-import { Tasks } from "@/components/pages/Tasks";
-import { Objects } from "@/components/pages/Objects";
-import { Team } from "@/components/pages/Team";
-import { MyTeam } from "@/components/pages/MyTeam";
-import { Admin } from "@/components/pages/Admin";
-import { Polygon } from "@/components/pages/Polygon";
-import { SendReport } from "@/components/pages/SendReport";
-import { ReportsPage } from "@/components/pages/ReportsPage";
-import { ReportDetails } from "@/components/pages/ReportDetails";
+import { SignUp } from "@/modules/public/pages/SignUp";
+import Home from "@/modules/public/pages/Home";
+import { SignIn } from "@/modules/public/pages/SignIn";
+import { Profile } from "@/modules/public/pages/Profile";
+import { Scoreboard } from "@/modules/public/pages/Scoreboard";
+import { Tasks } from "@/modules/public/pages/Tasks";
+import { Objects } from "@/modules/public/pages/Objects";
+import { Team } from "@/modules/public/pages/Team";
+import { MyTeam } from "@/modules/public/pages/MyTeam";
+import { Admin } from "@/modules/admin/pages/Admin";
+import { Polygon } from "@/modules/public/pages/Polygon";
+import { SendReport } from "@/modules/public/pages/SendReport";
+import { ReportsPage } from "@/modules/public/pages/ReportsPage";
+import { ReportDetails as PublicReports } from "@/modules/public/pages/ReportDetails";
+import { ReportDetails as AdminReports } from "@/modules/admin/pages/ReportDetails";
 
 export const privateRoutes = [
   {
@@ -40,11 +41,11 @@ export const privateRoutes = [
   },
   {
     path: "/report/:id/details",
-    element: <ReportDetails />,
+    element: <PublicReports />,
   },
   {
     path: "/admin/report/:id/details",
-    element: <ReportDetails />,
+    element: <AdminReports />,
   },
 ];
 

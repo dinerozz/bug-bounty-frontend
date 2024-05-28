@@ -1,26 +1,12 @@
 import React, { useState } from "react";
 import MainLayout from "@/components/templates/MainLayout";
-import { Card } from "@/components/molecules/Card";
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  Segmented,
-  Tabs,
-  TabsProps,
-  Typography,
-} from "antd";
-import FormItem from "antd/lib/form/FormItem";
-import TextArea from "antd/lib/input/TextArea";
-import { useMutation, useQuery } from "react-query";
-import { taskApi, TTaskPayload } from "@/api/taskApi";
+import { Tabs, TabsProps } from "antd";
+import { useQuery } from "react-query";
 import customNotification from "@/utils/customNotification";
 import { AxiosError } from "axios";
-import { SegmentedLabeledOption, SegmentedValue } from "antd/lib/segmented";
 import { CreateTask } from "@/components/organisms/CreateTask";
-import { Reports } from "@/components/organisms/Reports";
 import { reportApi } from "@/api/reportApi";
+import { Reports } from "@/modules/admin/organisms/Reports";
 
 export const Admin = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -44,9 +30,7 @@ export const Admin = () => {
     {
       key: "2",
       label: "Reports",
-      children: (
-        <Reports isAdmin loading={isReportsLoading} reports={reports} />
-      ),
+      children: <Reports loading={isReportsLoading} reports={reports} />,
     },
   ];
 

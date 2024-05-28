@@ -8,16 +8,16 @@ export const handleReportStatus = (status: string) => {
           APPROVED
         </Tag>
       );
-    case "DECLINED":
+    case "REJECTED":
       return (
         <Tag className="w-full text-center bg-transparent" color="error">
-          APPROVED
+          REJECTED
         </Tag>
       );
-    case "NEED DETAILS":
+    case "NEED MORE DETAILS":
       return (
         <Tag className="w-full text-center bg-transparent" color="warning">
-          NEED DETAILS
+          NEED MORE DETAILS
         </Tag>
       );
     default:

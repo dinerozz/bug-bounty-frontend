@@ -33,6 +33,21 @@ export type TReportDetails = {
   report_data: TReportsResponse;
 };
 
+export type TReviewReportPayload = {
+  report_id: number;
+  review_text: string;
+  points: number;
+  status: string;
+};
+
+export type TReviewReportResponse = {
+  report_id: number;
+  reviewer_id: string;
+  review_text: string;
+  Status: string;
+  points: number;
+};
+
 const sendReport = (payload: TSendReportPayload) =>
   api.post<TSendReportResponse>("/report", payload).then((res) => res.data);
 
@@ -47,7 +62,11 @@ const getReportDetails = (id: string) =>
     .get<TReportDetails>("/report/details", { params: { reportId: id } })
     .then((res) => res.data);
 
+const reviewReport = (payload: TReviewReportPayload) =>
+  api.post<TReviewReportResponse>("/admin/report/review", payload);
+
 export const reportApi = {
+  reviewReport,
   sendReport,
   getReports,
   getReportDetails,
